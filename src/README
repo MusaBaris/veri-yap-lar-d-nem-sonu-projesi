@@ -1,1 +1,7 @@
-
+Java Müzik Çalar Uygulaması
+Bu proje, Veri Yapıları dersi kapsamında geliştirilen; özel veri yapısı implementasyonlarını temel alan, Java Swing tabanlı bir masaüstü müzik çalar ve arşiv yöneticisidir.
+Ekip Üyeleri ve İş Bölümü:
+1-Şarkı modeli ve müzik arşivi -Şevval
+2-Çalma listesi yönetimi  -Melike
+3-Şarkı istek kuyruğu  -Şeyda
+4-Ana uygulama entegasyon ve testler  -Musa Barış
