@@ -7,10 +7,17 @@ Bu proje, Veri Yapıları dersi kapsamında geliştirilen; özel veri yapısı i
 ## 👥 Ekip Üyeleri ve İş Bölümü:
  | Adı  | Üstlendiği Görev & Veri Yapısı |
  | :--- | :--- | :--- |
- | Musa Barış | **Ana Uygulama & Entegrasyon, UI, Çift Yönlü Dairesel Bağlı Liste** | 
+ | Musa Barış | **Ana Uygulama & Entegrasyon, UI, Çift Yönlü Dairesel Bağlı Liste** |
+
+ 
  | Melike     | **Çalma Geçmişi (History) - Yığın (Stack)** |
+
+ 
  | Şeyda      | **Çalma Sırası (Queue/Up Next) - Kuyruk (Queue)** | 
+
+ 
  | Şevval     | **Şarkı Arama ve Sıralama - İkili Arama Ağacı (BST)** | 
+ 
 
 ---
 ## 🛠️ Kullanılan Teknolojiler 
