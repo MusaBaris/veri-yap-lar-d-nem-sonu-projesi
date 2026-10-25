@@ -1,1 +1,1 @@
-// Dinleme sırası için
+// Dinleme sırası için (Şeyda)
