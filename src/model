@@ -1,2 +1,5 @@
 public class Song {
 }
+
+public class HistoryStack {
+}
