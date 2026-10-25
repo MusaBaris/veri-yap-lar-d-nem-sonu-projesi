@@ -1,1 +1,0 @@
-# veri-yap-lar-d-nem-sonu-projesi
