@@ -1,1 +1,1 @@
-// Çalma listesi motoru için Musa Barış)
+// Çalma listesi motoru için (Musa Barış)
