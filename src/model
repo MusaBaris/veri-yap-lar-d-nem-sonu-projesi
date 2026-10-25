@@ -3,3 +3,6 @@ public class Song {
 
 public class HistoryStack {
 }
+
+public class PlaybackQueue {
+}
