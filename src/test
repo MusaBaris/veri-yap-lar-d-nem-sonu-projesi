@@ -1,6 +1,2 @@
-package datastructures;
-
-import model.Song;
-
-public class CircularDoublyLinkedList {
+public class PlaylistTest {
 }
