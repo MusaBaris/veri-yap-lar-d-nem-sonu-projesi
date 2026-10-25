@@ -3,3 +3,6 @@ public class PlaylistTest {
 
 public class HistoryTest {
 }
+
+public class PlaybackQueueTest {
+}
