@@ -6,3 +6,6 @@ public class HistoryTest {
 
 public class PlaybackQueueTest {
 }
+
+public class BSTTest {
+}
