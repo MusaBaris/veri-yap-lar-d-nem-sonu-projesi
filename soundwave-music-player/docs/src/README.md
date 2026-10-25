@@ -6,7 +6,11 @@ Bu proje, Veri Yapıları dersi kapsamında geliştirilen; özel veri yapısı i
 
 ## 👥 Ekip Üyeleri ve İş Bölümü:
  | Adı  | Üstlendiği Görev & Veri Yapısı |
+
+ 
  | :--- | :--- | :--- |
+
+ 
  | Musa Barış | **Ana Uygulama & Entegrasyon, UI, Çift Yönlü Dairesel Bağlı Liste** |
 
  
