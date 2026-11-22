@@ -25,7 +25,7 @@ public void add (Song song ) {
     temp.next = newNode;
   }
 }
-
+//Sonraki şarkıya geçelim.
   public Song next() {
     if (head == null ) {
       System.out.println("Çalma listeniz boş.");
@@ -38,7 +38,7 @@ public void add (Song song ) {
     current = current.next;
     return current.data;
   }
-
+//Önceki şarkıya geçelim.
   public Song previous() {
     if (head == null)  {
       System.out.println("Çalma listeniz boş.");
@@ -55,5 +55,25 @@ public void add (Song song ) {
     current = temp;
     return current.data;
   }
+  //ID'ye göre şarkı silelim.
+  public boolean remove (int id) {
+    if ( head == null) {
+      System.out.println("Çalma listeniz boş.");
+      return false;
+    }
+
+    //Silinecek düğümü ve onun öncesini bulalım .
+    Node prev = null;
+    Node temp = head;
+    while (temp != null && temp.data getID() != id) {
+      prev = temp;
+      temp = temp.next;
+    }
+    if (temp == null {
+      System.out.println("Şarkı bulunamadı.");
+      return false;
+    }
+    
+      
 }
     
