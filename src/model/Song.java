@@ -2,38 +2,36 @@
 package model;
 
 public class Song {
-    private int id;
-    private String title;
-    private String artist;
-    private int durationInSeconds;
+private String title;
+  private String artist;
+  private double duration;
 
-    public Song(int id, String title, String artist, int durationInSeconds) {
-        this.id = id;
-        this.title = title;
-        this.artist = artist;
-        this.durationInSeconds = durationInSeconds;
-    }
+  public Song(String title, String artist, double duration) {
+    this.title = title;
+    this.artist= artist;
+    this.duration= duration; }
 
-    public int getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getArtist() {
-        return artist;
-    }
-
-    public int getDurationInSeconds() {
-        return durationInSeconds;
-    }
-
-    @Override 
-    public String toString() {
-        int minutes = durationInSeconds / 60;
-        int seconds = durationInSeconds % 60;
-        return String.format("[%d] %s - %s (%02d:%02d)", id, artist, title, minutes, seconds);
-    }
+  public String getTitle() {
+    return title; }
+  
+  public void setTitle(String title) {
+    this.title= title; }
+  
+  public String getArtist() {
+    return artist; }
+  
+  public void setArtist(String artist) {
+    this.artist = artist; }
+  
+  public double getDuration() {
+    return duration; }
+  
+  public void setDuration(double duration) {
+    this.duration = duration; }
+  
+  @override
+  
+  public String toString() {
+    return title + "-" + artist + "(" + duration + " dk)";
+  }
 }
