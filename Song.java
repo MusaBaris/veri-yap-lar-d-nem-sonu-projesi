@@ -1,17 +1,19 @@
+import java.util.ArrayList;
+import java.util.List;
 
 public class Song {
     private String id;
     private String title;
     private String artist;
-    private int duration; // Saniye cinsinden
-    private String playlistName;
+    private int duration;
+    private List<String> playlists;
 
-    public Song(String id, String title, String artist, int duration, String playlistName) {
+    public Song(String id, String title, String artist, int duration) {
         this.id = id;
         this.title = title;
         this.artist = artist;
         this.duration = duration;
-        this.playlistName = playlistName;
+        this.playlists = new ArrayList<>();
     }
 
     public String getId() { return id; }
@@ -26,27 +28,63 @@ public class Song {
     public int getDuration() { return duration; }
     public void setDuration(int duration) { this.duration = duration; }
 
-    public String getPlaylistName() { return playlistName; }
-    public void setPlaylistName(String playlistName) { this.playlistName = playlistName; }
+    public List<String> getPlaylists() { return playlists; }
 
-    // Dosyaya yazılacak format (Örn: 1|Glass Table Girls|The Weeknd|180|Favoriler)
-    public String toFileString() {
-        return id + "|" + title + "|" + artist + "|" + duration + "|" + playlistName;
+    public void addPlaylist(String playlistName) {
+        if (playlistName != null && !playlistName.trim().isEmpty()) {
+            for (String p : playlists) {
+                if (p.equalsIgnoreCase(playlistName.trim())) {
+                    return;
+                }
+            }
+            playlists.add(playlistName.trim());
+        }
     }
 
-    // Dosyadaki satırdan nesne üreten metot
+    public void removePlaylist(String playlistName) {
+        if (playlistName != null) {
+            playlists.removeIf(p -> p.equalsIgnoreCase(playlistName.trim()));
+        }
+    }
+
+    public boolean isInPlaylist(String playlistName) {
+        if (playlistName == null) return false;
+        for (String p : playlists) {
+            if (p.equalsIgnoreCase(playlistName.trim())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String toFileString() {
+        String joinedLists = String.join(",", playlists);
+        return id + "|" + title + "|" + artist + "|" + duration + "|" + joinedLists;
+    }
+
     public static Song fromFileString(String line) {
-        String[] parts = line.split("\\|");
-        if (parts.length >= 5) {
-            return new Song(parts[0], parts[1], parts[2], Integer.parseInt(parts[3]), parts[4]);
+        if (line == null || line.trim().isEmpty()) return null;
+        String[] parts = line.split("\\|", -1);
+        if (parts.length >= 4) {
+            try {
+                int parsedDuration = Integer.parseInt(parts[3].trim());
+                Song song = new Song(parts[0].trim(), parts[1].trim(), parts[2].trim(), parsedDuration);
+                if (parts.length >= 5 && !parts[4].trim().isEmpty()) {
+                    String[] listNames = parts[4].split(",");
+                    for (String name : listNames) {
+                        song.addPlaylist(name);
+                    }
+                }
+                return song;
+            } catch (NumberFormatException e) {
+                return null;
+            }
         }
         return null;
     }
 
-    @Override
     public String toString() {
-        return "[" + id + "] " + title + " - " + artist + " (" + duration + " sn) [" + playlistName + "]";
+        String listInfo = playlists.isEmpty() ? "Liste Yok" : String.join(", ", playlists);
+        return "[" + id + "] " + title + " - " + artist + " (" + duration + " sn) [" + listInfo + "]";
     }
-}
-
 }
