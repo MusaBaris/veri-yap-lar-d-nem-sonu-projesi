@@ -38,3 +38,22 @@ public void add (Song song ) {
     current = current.next;
     return current.data;
   }
+
+  public Song previous() {
+    if (head == null)  {
+      System.out.println("Çalma listeniz boş.");
+      return null;
+    }
+    if (current == head) {
+      System.out.println("Listenin başındasınız , önceki şarkı yok.");
+      return current.data;
+    }
+    Node temp = head;
+    while ( temp.next != current ) {
+      temp = temp.next;
+    }
+    current = temp;
+    return current.data;
+  }
+}
+    
