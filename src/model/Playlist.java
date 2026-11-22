@@ -25,3 +25,16 @@ public void add (Song song ) {
     temp.next = newNode;
   }
 }
+
+  public Song next() {
+    if (head == null ) {
+      System.out.println("Çalma listeniz boş.");
+      return null;
+    }
+    if (current.next == null) {
+      System.out.println("Listenin sonundasınız, sonraki şarkı yok.");
+      return current.data;
+    }
+    current = current.next;
+    return current.data;
+  }
