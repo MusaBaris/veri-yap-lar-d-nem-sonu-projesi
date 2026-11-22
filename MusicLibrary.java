@@ -1,4 +1,3 @@
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,41 +8,44 @@ public class MusicLibrary {
 
     public MusicLibrary(String filePath) {
         this.songs = new ArrayList<>();
-        this.filePath = (filePath != null && !filePath.isEmpty()) ? filePath : "arsiv.mus";
+        this.filePath = (filePath != null && !filePath.trim().isEmpty()) ? filePath.trim() : "arsiv.mus";
     }
 
-    
-
     public boolean addSong(Song song) {
-        if (song == null || findById(song.getId()) != null) {
+        if (song == null || song.getId() == null || song.getId().trim().isEmpty()) {
+            return false;
+        }
+        if (findById(song.getId()) != null) {
             return false;
         }
         return songs.add(song);
     }
 
+  
     public boolean deleteSong(String id) {
         Song target = findById(id);
         if (target != null) {
+            target.getPlaylists().clear();
             return songs.remove(target);
         }
         return false;
     }
 
-    public boolean updateSong(String id, String newTitle, String newArtist, int newDuration, String newPlaylist) {
+    public boolean updateSong(String id, String newTitle, String newArtist, int newDuration) {
         Song song = findById(id);
         if (song != null) {
-            song.setTitle(newTitle);
-            song.setArtist(newArtist);
-            song.setDuration(newDuration);
-            song.setPlaylistName(newPlaylist);
+            if (newTitle != null) song.setTitle(newTitle.trim());
+            if (newArtist != null) song.setArtist(newArtist.trim());
+            if (newDuration >= 0) song.setDuration(newDuration);
             return true;
         }
         return false;
     }
 
     public Song findById(String id) {
+        if (id == null) return null;
         for (Song s : songs) {
-            if (s.getId().equalsIgnoreCase(id)) {
+            if (s.getId() != null && s.getId().equalsIgnoreCase(id.trim())) {
                 return s;
             }
         }
@@ -52,8 +54,10 @@ public class MusicLibrary {
 
     public List<Song> searchByTitle(String titleQuery) {
         List<Song> results = new ArrayList<>();
+        if (titleQuery == null) return results;
+        String q = titleQuery.toLowerCase().trim();
         for (Song s : songs) {
-            if (s.getTitle().toLowerCase().contains(titleQuery.toLowerCase())) {
+            if (s.getTitle() != null && s.getTitle().toLowerCase().contains(q)) {
                 results.add(s);
             }
         }
@@ -62,8 +66,10 @@ public class MusicLibrary {
 
     public List<Song> searchByArtist(String artistQuery) {
         List<Song> results = new ArrayList<>();
+        if (artistQuery == null) return results;
+        String q = artistQuery.toLowerCase().trim();
         for (Song s : songs) {
-            if (s.getArtist().toLowerCase().contains(artistQuery.toLowerCase())) {
+            if (s.getArtist() != null && s.getArtist().toLowerCase().contains(q)) {
                 results.add(s);
             }
         }
@@ -72,8 +78,9 @@ public class MusicLibrary {
 
     public List<Song> searchByPlaylist(String playlistName) {
         List<Song> results = new ArrayList<>();
+        if (playlistName == null) return results;
         for (Song s : songs) {
-            if (s.getPlaylistName().equalsIgnoreCase(playlistName)) {
+            if (s.isInPlaylist(playlistName)) {
                 results.add(s);
             }
         }
@@ -90,15 +97,28 @@ public class MusicLibrary {
         return results;
     }
 
-  
+    
+    public List<String> getPlaylistsContainingSong(String id) {
+        Song song = findById(id);
+        if (song == null) {
+            return new ArrayList<>();
+        }
+        return new ArrayList<>(song.getPlaylists());
+    }
 
     public void sortByTitle() {
         for (int i = 1; i < songs.size(); i++) {
             Song key = songs.get(i);
+            String keyTitle = (key.getTitle() != null) ? key.getTitle() : "";
             int j = i - 1;
-            while (j >= 0 && songs.get(j).getTitle().compareToIgnoreCase(key.getTitle()) > 0) {
-                songs.set(j + 1, songs.get(j));
-                j--;
+            while (j >= 0) {
+                String currentTitle = (songs.get(j).getTitle() != null) ? songs.get(j).getTitle() : "";
+                if (currentTitle.compareToIgnoreCase(keyTitle) > 0) {
+                    songs.set(j + 1, songs.get(j));
+                    j--;
+                } else {
+                    break;
+                }
             }
             songs.set(j + 1, key);
         }
@@ -107,10 +127,16 @@ public class MusicLibrary {
     public void sortByArtist() {
         for (int i = 1; i < songs.size(); i++) {
             Song key = songs.get(i);
+            String keyArtist = (key.getArtist() != null) ? key.getArtist() : "";
             int j = i - 1;
-            while (j >= 0 && songs.get(j).getArtist().compareToIgnoreCase(key.getArtist()) > 0) {
-                songs.set(j + 1, songs.get(j));
-                j--;
+            while (j >= 0) {
+                String currentArtist = (songs.get(j).getArtist() != null) ? songs.get(j).getArtist() : "";
+                if (currentArtist.compareToIgnoreCase(keyArtist) > 0) {
+                    songs.set(j + 1, songs.get(j));
+                    j--;
+                } else {
+                    break;
+                }
             }
             songs.set(j + 1, key);
         }
@@ -128,7 +154,6 @@ public class MusicLibrary {
         }
     }
 
-
     public void loadFromFile() {
         File file = new File(filePath);
         if (!file.exists()) {
@@ -140,9 +165,13 @@ public class MusicLibrary {
             String line;
             while ((line = reader.readLine()) != null) {
                 if (!line.trim().isEmpty()) {
-                    Song s = Song.fromFileString(line);
-                    if (s != null) {
-                        songs.add(s);
+                    try {
+                        Song s = Song.fromFileString(line);
+                        if (s != null && findById(s.getId()) == null) {
+                            songs.add(s);
+                        }
+                    } catch (Exception ex) {
+                        System.err.println("Bozuk satır atlandı: " + line);
                     }
                 }
             }
@@ -165,6 +194,4 @@ public class MusicLibrary {
     public List<Song> getAllSongs() {
         return songs;
     }
-}
-
 }
