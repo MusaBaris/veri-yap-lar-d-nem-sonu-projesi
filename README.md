@@ -1,1 +1,0 @@
-kendi kodlarımı buraya yazacağım
